@@ -21,5 +21,10 @@
             <groupId>org.asn</groupId>
             <artifactId>rpc-core</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.caucho</groupId>
+            <artifactId>hessian</artifactId>
+        </dependency>
+        <!--也可以增加对protobuf序列化的支持-->
     </dependencies>
 </project>
