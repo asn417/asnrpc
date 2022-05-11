@@ -15,5 +15,18 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
     </properties>
-
+    <dependencies>
+        <dependency>
+            <groupId>org.asn</groupId>
+            <artifactId>rpc-protocol</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.asn</groupId>
+            <artifactId>rpc-registry</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.asn</groupId>
+            <artifactId>rpc-interface</artifactId>
+        </dependency>
+    </dependencies>
 </project>
