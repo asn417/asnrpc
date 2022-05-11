@@ -13,6 +13,6 @@ public class ServiceMeta {
     private String serviceName;
     private String version;
     private String serviceAddress;
-    private String servicePort;
+    private int servicePort;
 
 }
