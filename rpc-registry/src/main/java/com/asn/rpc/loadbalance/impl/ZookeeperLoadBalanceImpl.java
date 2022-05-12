@@ -38,7 +38,7 @@ public class ZookeeperLoadBalanceImpl implements ServiceLoadBalance<ServiceInsta
                 ring.put((instanceKey+i).hashCode(),server);
             }
         }
-        return null;
+        return ring;
     }
 
     private String buildServerInstanceKey(ServiceInstance<ServiceMeta> server){
