@@ -40,15 +40,17 @@ public class RpcConsumer {
 
     /**
      * protocol：封装了发送给服务端的消息
-     * registryService：
+     * registryService：注册中心服务实例
      **/
     public void sendRequest(RpcProtocol<RpcRequest> protocol, RegistryService registryService) throws Exception {
         RpcRequest request = protocol.getBody();
         String serviceKey = RpcUtil.buildServiceKey(request.getClassName(), request.getVersion());
         Object[] params = request.getParams();
         int hashCode = params != null ? params.hashCode():serviceKey.hashCode();
+        //从注册中心获取服务
         ServiceMeta serviceMeta = registryService.discovery(serviceKey, hashCode);
 
+        //通过netty进行远程服务调用
         if (serviceMeta != null){
             ChannelFuture future = bootstrap.connect(serviceMeta.getServiceAddress(), serviceMeta.getServicePort()).sync();
             //通过监听器监听连接是否成功

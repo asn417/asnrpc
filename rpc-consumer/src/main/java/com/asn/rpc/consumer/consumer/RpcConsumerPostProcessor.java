@@ -27,13 +27,12 @@ public class RpcConsumerPostProcessor implements BeanClassLoaderAware, Applicati
 
     private ApplicationContext applicationContext;
 
+    //存放被@RpcReference注解的bean定义
     private Map<String,BeanDefinition> beanDefinitionMap = new ConcurrentHashMap<>();
 
     @Override
     public void postProcessBeanFactory(ConfigurableListableBeanFactory configurableListableBeanFactory) throws BeansException {
-        //在bean初始化之前的操作
-
-        //从beanFactory获取所有的bean定义
+        //从beanFactory获取所有的bean定义，解析bean中的RpcReference注解，为其标注的变量生成代理bean对象
         String[] beanDefinitionNames = configurableListableBeanFactory.getBeanDefinitionNames();
         for (String beanDefinitionName : beanDefinitionNames) {
             BeanDefinition beanDefinition = configurableListableBeanFactory.getBeanDefinition(beanDefinitionName);
@@ -50,7 +49,6 @@ public class RpcConsumerPostProcessor implements BeanClassLoaderAware, Applicati
             }
         }
         //bean解析之后，将其注册到容器中
-        System.out.println(applicationContext.containsBean("userService"));
         BeanDefinitionRegistry registry = (BeanDefinitionRegistry) configurableListableBeanFactory;
         beanDefinitionMap.forEach((beanName,beanDef)->{
             if (applicationContext.containsBean(beanName)){
@@ -58,7 +56,6 @@ public class RpcConsumerPostProcessor implements BeanClassLoaderAware, Applicati
             }
             registry.registerBeanDefinition(beanName,beanDef);
         });
-        System.out.println(applicationContext.containsBean("userService"));
     }
 
     private void parseRpcReference(Field field) {

@@ -61,6 +61,9 @@ public class ZookeeperRegistryServiceImpl implements RegistryService {
     public ServiceMeta discovery(String serviceKey, int hashCode) throws Exception {
         //根据serviceKey获取服务列表
         Collection<ServiceInstance<ServiceMeta>> serviceInstances = serviceDiscovery.queryForInstances(serviceKey);
+        if (serviceInstances == null || serviceInstances.size() == 0){
+            throw new IllegalArgumentException("there is no serviceInstances in registry center [serviceKey="+serviceKey+"]");
+        }
         //根据负载均衡算法获取一个服务实例
         ServiceInstance<ServiceMeta> serviceInstance = new ZookeeperLoadBalanceImpl().select((List<ServiceInstance<ServiceMeta>>) serviceInstances, hashCode);
         if (serviceInstance != null){

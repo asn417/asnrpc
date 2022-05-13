@@ -13,8 +13,8 @@ import io.netty.handler.codec.MessageToByteEncoder;
  **/
 public class RpcEncoder extends MessageToByteEncoder<RpcProtocol<Object>> {
     @Override
-    protected void encode(ChannelHandlerContext ctx, RpcProtocol<Object> msg, ByteBuf out) throws Exception {
-        MessageHeader header = msg.getHeader();
+    protected void encode(ChannelHandlerContext ctx, RpcProtocol<Object> protocol, ByteBuf out) throws Exception {
+        MessageHeader header = protocol.getHeader();
         //将协议头写入ByteBuf，注意：写入顺序要和定义的顺序一致
         out.writeShort(header.getMagic());
         out.writeByte(header.getVersion());
@@ -25,7 +25,7 @@ public class RpcEncoder extends MessageToByteEncoder<RpcProtocol<Object>> {
 
         //将协议体转换为字节数组
         RpcSerialization rpcSerialization = RpcSerializationFactory.getRpcSerialization(header.getSerializationType());
-        byte[] data = rpcSerialization.serialize(msg.getBody());
+        byte[] data = rpcSerialization.serialize(protocol.getBody());
         out.writeInt(data.length);//消息长度msgLength
         out.writeBytes(data);//消息体
     }

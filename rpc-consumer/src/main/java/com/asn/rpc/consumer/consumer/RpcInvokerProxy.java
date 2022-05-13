@@ -18,6 +18,9 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import java.util.concurrent.TimeUnit;
 
+/**
+ * 服务调用的代理对象
+ **/
 @AllArgsConstructor
 public class RpcInvokerProxy implements InvocationHandler {
 
@@ -27,7 +30,7 @@ public class RpcInvokerProxy implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) throws Throwable {
-        //构建自定义协议包
+        //构建请求对象的自定义协议包
         RpcProtocol<RpcRequest> protocol = new RpcProtocol<>();
         //构建消息头
         MessageHeader header = new MessageHeader();

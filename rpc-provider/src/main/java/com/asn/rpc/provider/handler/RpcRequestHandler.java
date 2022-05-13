@@ -28,6 +28,8 @@ public class RpcRequestHandler extends SimpleChannelInboundHandler<RpcProtocol<R
             RpcResponse rpcResponse = new RpcResponse();
             //设置响应体的报文类型
             MessageHeader header = msg.getHeader();
+            byte msgType = header.getMsgType();
+            //根据请求类型做不同处理，
             header.setMsgType((byte) MessageTypeEnum.RESPONSE.getType());
             //获取客户端发送的请求信息
             RpcRequest request = msg.getBody();
